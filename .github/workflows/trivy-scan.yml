@@ -17,7 +17,8 @@ jobs:
 
       - name: Send Results to Platform
         run: |
-           curl -X POST https://nuncupative-ocie-unmodishly.ngrok-free.dev/api/scan/upload/ \
-            -H "Authorization: 1b1063dc93cfe7f292bcecd61ebdde6b38bd67a4db4a4d45a4843e86c487612b \
+          TRIVY_JSON=$(cat trivy-results.json)
+          curl -X POST https://nuncupative-ocie-unmodishly.ngrok-free.dev/api/scan/upload/ \
+            -H "Authorization: Token 1b1063dc93cfe7f292bcecd61ebdde6b38bd67a4db4a4d45a4843e86c487612b" \
             -H "Content-Type: application/json" \
-            -d "{\"repo_name\": \"test-vulnerable-app\", \"branch\": \"main\", \"commit_sha\": \"$GITHUB_SHA\", \"trivy_results\": $(cat trivy-results.json)}"
+            --data-raw "{\"repo_name\": \"test-vulnerable-app\", \"branch\": \"main\", \"commit_sha\": \"$GITHUB_SHA\", \"trivy_results\": $TRIVY_JSON}"
