@@ -17,7 +17,27 @@ jobs:
 
       - name: Send Results to Platform
         run: |
-          curl -X POST https://nuncupative-ocie-unmodishly.ngrok-free.dev/api/scan/upload/ \
-            -H "Authorization: 1b1063dc93cfe7f292bcecd61ebdde6b38bd67a4db4a4d45a4843e86c487612b" \
-            -H "Content-Type: application/json" \
-            -d @trivy-results.json
+          python3 -c "
+          import json, urllib.request
+
+          with open('trivy-results.json') as f:
+              trivy_data = json.load(f)
+
+          payload = json.dumps({
+              'repo_name': 'test-vulnerable-app',
+              'branch': 'main',
+              'commit_sha': '$GITHUB_SHA',
+              'trivy_results': trivy_data
+          }).encode('utf-8')
+
+          req = urllib.request.Request(
+              'https://nuncupative-ocie-unmodishly.ngrok-free.dev/api/scan/upload/',
+              data=payload,
+              headers={
+                  'Authorization': 'Token 1b1063dc93cfe7f292bcecd61ebdde6b38bd67a4db4a4d45a4843e86c487612b',
+                  'Content-Type': 'application/json'
+              }
+          )
+          response = urllib.request.urlopen(req)
+          print(response.read().decode())
+          "
