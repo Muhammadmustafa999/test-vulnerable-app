@@ -34,7 +34,7 @@ jobs:
               'https://nuncupative-ocie-unmodishly.ngrok-free.dev/api/scan/upload/',
               data=payload,
               headers={
-                  'Authorization': 'Token 1b1063dc93cfe7f292bcecd61ebdde6b38bd67a4db4a4d45a4843e86c487612b',
+                  'Authorization': 'Token 2f8eb44b90256369f129393bc870f2054c43f193',
                   'Content-Type': 'application/json'
               }
           )
